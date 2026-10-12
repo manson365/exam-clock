@@ -644,6 +644,307 @@
     [data-theme="oled"] .ambient-glow {
       display: none;
     }
+
+    /* ============================================================
+       考場鬧鈴通知橫幅與設定彈窗
+       ============================================================ */
+    .alarm-banner {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: var(--card-bg);
+      border: 2px solid var(--accent);
+      border-radius: 999px;
+      padding: 10px 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 20px var(--accent-glow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      animation: bannerSlideDown 0.35s ease-out;
+    }
+
+    @keyframes bannerSlideDown {
+      from { transform: translate(-50%, -40px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .alarm-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text-main);
+    }
+
+    .alarm-banner-icon {
+      font-size: 1.6rem;
+      animation: bellRing 0.8s ease infinite alternate;
+    }
+
+    @keyframes bellRing {
+      from { transform: rotate(-15deg); }
+      to { transform: rotate(15deg); }
+    }
+
+    .alarm-banner-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .alarm-banner-text strong {
+      font-size: 1.12rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .alarm-banner-text span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .alarm-banner-close {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: 6px;
+    }
+
+    .alarm-banner-close:hover {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+
+    /* 彈窗遮罩 */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--board-border);
+      border-radius: 24px;
+      padding: clamp(20px, 3vh, 28px) clamp(22px, 3.5vw, 36px);
+      width: 92%;
+      max-width: 540px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .modal-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin: 0 0 8px 0;
+      line-height: 1.5;
+    }
+
+    .alarm-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .alarm-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(125, 125, 125, 0.06);
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .alarm-row:hover {
+      border-color: var(--accent);
+    }
+
+    .alarm-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .alarm-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .alarm-switch .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: var(--border-color);
+      transition: 0.25s;
+      border-radius: 24px;
+    }
+
+    .alarm-switch .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.25s;
+      border-radius: 50%;
+    }
+
+    .alarm-switch input:checked + .slider {
+      background-color: var(--accent);
+    }
+
+    .alarm-switch input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .alarm-index {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .alarm-time-input {
+      background: var(--board-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 8px;
+      outline: none;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .alarm-time-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    .alarm-text-input {
+      flex: 1;
+      background: var(--board-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.92rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+      outline: none;
+      font-family: inherit;
+      transition: all 0.2s;
+      min-width: 0;
+    }
+
+    .alarm-text-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+      gap: 12px;
+    }
+
+    .btn-modal-action {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 7px 14px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-modal-action:hover {
+      background: var(--accent-glow);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .btn-modal-primary {
+      background: var(--accent);
+      border: none;
+      color: #ffffff;
+      padding: 8px 18px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: auto;
+    }
+
+    .btn-modal-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body data-theme="light" data-clock-size="xl">
@@ -730,7 +1031,7 @@
   <!-- 頁面下方：左側提示、右側校徽與單位名稱 -->
   <footer class="footer-container">
     <div class="hint-bar">
-      點擊上方文字或「00」修改 ｜ 按 B 顯示/隱藏看板 ｜ 雙擊時鐘或按 F 全螢幕 ｜ 投影展示自動防休眠
+      點擊上方文字或「00」修改 ｜ 按 B 顯示/隱藏看板 ｜ 按 A 設定鬧鈴 ｜ 雙擊時鐘或按 F 全螢幕 ｜ 投影展示自動防休眠
     </div>
     <div class="footer-brand-box">
       <!-- 隱藏的檔案上傳 input -->
@@ -779,6 +1080,9 @@
     <button class="btn" id="boardBtn" title="顯示/隱藏考場人數與缺考看板 (快捷鍵：B)">
       📋 <span id="boardLabel">看板 ON</span>
     </button>
+    <button class="btn" id="alarmBtn" title="設定考試鬧鈴提醒 (快捷鍵：A)">
+      🔔 <span id="alarmLabel">鬧鈴 OFF</span>
+    </button>
     <button class="btn" id="secondsBtn" title="顯示/隱藏秒數">
       ⏱️ <span id="secondsLabel">秒 ON</span>
     </button>
@@ -789,6 +1093,70 @@
       ⛶ 全螢幕
     </button>
   </aside>
+
+  <!-- 考場鬧鈴通知橫幅 (到達時間時浮現) -->
+  <div id="alarmBanner" class="alarm-banner" style="display: none;">
+    <div class="alarm-banner-content">
+      <span class="alarm-banner-icon">🔔</span>
+      <div class="alarm-banner-text">
+        <strong id="alarmBannerTitle">08:40 開始作答提醒</strong>
+        <span id="alarmBannerSub">考場定時鬧鈴已響起</span>
+      </div>
+      <button type="button" class="alarm-banner-close" id="closeAlarmBannerBtn" title="關閉提醒並靜音">關閉</button>
+    </div>
+  </div>
+
+  <!-- 考場鬧鈴設定彈窗 -->
+  <div id="alarmModalBackdrop" class="modal-backdrop" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">🔔 考場定時鬧鈴設定（3組提醒）</h3>
+        <button type="button" class="modal-close" id="closeAlarmModalBtn" title="關閉設定">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">可設定 3 組重要節次時間（如：開始作答、剩餘時間、交卷），時間到達時自動播放清脆鐘聲與提示橫幅。</p>
+        
+        <div class="alarm-list">
+          <!-- 鬧鈴 1 -->
+          <div class="alarm-row" data-index="0">
+            <label class="alarm-switch">
+              <input type="checkbox" id="alarmEnable0" />
+              <span class="slider"></span>
+            </label>
+            <span class="alarm-index">第 1 組</span>
+            <input type="time" id="alarmTime0" class="alarm-time-input" value="08:40" />
+            <input type="text" id="alarmLabel0" class="alarm-text-input" placeholder="提醒事項（如：開始作答）" value="開始作答" maxlength="20" />
+          </div>
+
+          <!-- 鬧鈴 2 -->
+          <div class="alarm-row" data-index="1">
+            <label class="alarm-switch">
+              <input type="checkbox" id="alarmEnable1" />
+              <span class="slider"></span>
+            </label>
+            <span class="alarm-index">第 2 組</span>
+            <input type="time" id="alarmTime1" class="alarm-time-input" value="09:25" />
+            <input type="text" id="alarmLabel1" class="alarm-text-input" placeholder="提醒事項（如：剩餘 5 分鐘）" value="剩餘 5 分鐘提醒" maxlength="20" />
+          </div>
+
+          <!-- 鬧鈴 3 -->
+          <div class="alarm-row" data-index="2">
+            <label class="alarm-switch">
+              <input type="checkbox" id="alarmEnable2" />
+              <span class="slider"></span>
+            </label>
+            <span class="alarm-index">第 3 組</span>
+            <input type="time" id="alarmTime2" class="alarm-time-input" value="09:30" />
+            <input type="text" id="alarmLabel2" class="alarm-text-input" placeholder="提醒事項（如：測驗結束交卷）" value="測驗結束，請停筆交卷" maxlength="20" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-action" id="testSoundBtn" title="測試喇叭播放鈴聲">🔊 試聽鈴聲</button>
+        <button type="button" class="btn-modal-primary" id="saveCloseAlarmModalBtn">確定完成</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // 預設內嵌校徽 Base64（雙重備援，免網路、單檔完全不破圖）
@@ -823,10 +1191,21 @@
     const formatLabel = document.getElementById('formatLabel');
     const boardBtn = document.getElementById('boardBtn');
     const boardLabel = document.getElementById('boardLabel');
+    const alarmBtn = document.getElementById('alarmBtn');
+    const alarmLabel = document.getElementById('alarmLabel');
     const secondsBtn = document.getElementById('secondsBtn');
     const secondsLabel = document.getElementById('secondsLabel');
     const msBtn = document.getElementById('msBtn');
     const msLabel = document.getElementById('msLabel');
+
+    const alarmModalBackdrop = document.getElementById('alarmModalBackdrop');
+    const closeAlarmModalBtn = document.getElementById('closeAlarmModalBtn');
+    const saveCloseAlarmModalBtn = document.getElementById('saveCloseAlarmModalBtn');
+    const testSoundBtn = document.getElementById('testSoundBtn');
+    const alarmBanner = document.getElementById('alarmBanner');
+    const alarmBannerTitle = document.getElementById('alarmBannerTitle');
+    const alarmBannerSub = document.getElementById('alarmBannerSub');
+    const closeAlarmBannerBtn = document.getElementById('closeAlarmBannerBtn');
 
     // --- 本地儲存鍵名 ---
     const STORAGE_KEY_TITLE = 'exam_clock_title';
@@ -841,6 +1220,7 @@
     const STORAGE_KEY_ACTUAL = 'exam_clock_actual_count';
     const STORAGE_KEY_ABSENT = 'exam_clock_absent_seats';
     const STORAGE_KEY_LOGO = 'exam_clock_custom_logo';
+    const STORAGE_KEY_ALARMS = 'exam_clock_alarms';
 
     // 自動清理先前異常或亂碼的 localStorage 快取
     (function cleanCorruptedStorage() {
@@ -848,7 +1228,7 @@
         STORAGE_KEY_TITLE, STORAGE_KEY_FOOTER, STORAGE_KEY_THEME,
         STORAGE_KEY_SIZE, STORAGE_KEY_FORMAT, STORAGE_KEY_SHOW_BOARD, STORAGE_KEY_SHOW_SEC,
         STORAGE_KEY_SHOW_MS, STORAGE_KEY_EXPECTED, STORAGE_KEY_ACTUAL,
-        STORAGE_KEY_ABSENT, STORAGE_KEY_LOGO
+        STORAGE_KEY_ABSENT, STORAGE_KEY_LOGO, STORAGE_KEY_ALARMS
       ];
       keys.forEach(k => {
         const val = localStorage.getItem(k);
@@ -996,6 +1376,184 @@
     }
     updateBoardBtn();
 
+    // --- 考場 3 組定時鬧鈴功能 (Web Audio API 合成音效) ---
+    const defaultAlarms = [
+      { enabled: false, time: '08:40', label: '開始作答' },
+      { enabled: false, time: '09:25', label: '剩餘 5 分鐘提醒' },
+      { enabled: false, time: '09:30', label: '測驗結束，請停筆交卷' }
+    ];
+
+    let alarms = defaultAlarms;
+    try {
+      const savedAlarms = localStorage.getItem(STORAGE_KEY_ALARMS);
+      if (savedAlarms) {
+        const parsed = JSON.parse(savedAlarms);
+        if (Array.isArray(parsed) && parsed.length === 3) {
+          alarms = parsed;
+        }
+      }
+    } catch (e) {
+      alarms = defaultAlarms;
+    }
+
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // 播放考場提示鐘聲（C5, E5, G5, C6 清脆鐘琴和弦）
+    function playAlarmSound() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const notes = [
+        { freq: 523.25, time: 0.0, dur: 0.75 },
+        { freq: 659.25, time: 0.35, dur: 0.75 },
+        { freq: 783.99, time: 0.7, dur: 0.75 },
+        { freq: 1046.50, time: 1.05, dur: 1.5 }
+      ];
+
+      notes.forEach((n) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(n.freq, now + n.time);
+
+        gain.gain.setValueAtTime(0.001, now + n.time);
+        gain.gain.exponentialRampToValueAtTime(0.35, now + n.time + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + n.time + n.dur);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now + n.time);
+        osc.stop(now + n.time + n.dur);
+      });
+    }
+
+    // 任何使用者點擊或按鍵時自動解鎖音訊上下文
+    window.addEventListener('click', () => { getAudioContext(); }, { once: false, passive: true });
+    window.addEventListener('keydown', () => { getAudioContext(); }, { once: false, passive: true });
+
+    // 更新鬧鈴控制按鈕狀態標籤
+    function updateAlarmBtnStatus() {
+      const activeCount = alarms.filter(a => a.enabled).length;
+      if (activeCount > 0) {
+        alarmLabel.textContent = `鬧鈴 (${activeCount}組)`;
+        alarmBtn.style.borderColor = 'var(--accent)';
+      } else {
+        alarmLabel.textContent = '鬧鈴 OFF';
+        alarmBtn.style.borderColor = '';
+      }
+    }
+
+    // 同步資料至 UI 表單元素
+    function syncAlarmsToUI() {
+      for (let i = 0; i < 3; i++) {
+        const enableEl = document.getElementById(`alarmEnable${i}`);
+        const timeEl = document.getElementById(`alarmTime${i}`);
+        const labelEl = document.getElementById(`alarmLabel${i}`);
+        if (enableEl) enableEl.checked = !!alarms[i].enabled;
+        if (timeEl) timeEl.value = alarms[i].time || '';
+        if (labelEl) labelEl.value = alarms[i].label || '';
+      }
+      updateAlarmBtnStatus();
+    }
+
+    // 從 UI 表單讀取並儲存到 localStorage
+    function saveAlarmsFromUI() {
+      for (let i = 0; i < 3; i++) {
+        const enableEl = document.getElementById(`alarmEnable${i}`);
+        const timeEl = document.getElementById(`alarmTime${i}`);
+        const labelEl = document.getElementById(`alarmLabel${i}`);
+        alarms[i] = {
+          enabled: enableEl ? enableEl.checked : false,
+          time: timeEl ? timeEl.value : '08:00',
+          label: labelEl ? labelEl.value.trim() : `第 ${i+1} 組提醒`
+        };
+      }
+      localStorage.setItem(STORAGE_KEY_ALARMS, JSON.stringify(alarms));
+      updateAlarmBtnStatus();
+    }
+
+    // 鬧鈴彈窗顯示與隱藏
+    function openAlarmModal() {
+      getAudioContext();
+      syncAlarmsToUI();
+      alarmModalBackdrop.style.display = 'flex';
+    }
+
+    function closeAlarmModal() {
+      saveAlarmsFromUI();
+      alarmModalBackdrop.style.display = 'none';
+    }
+
+    alarmBtn.addEventListener('click', openAlarmModal);
+    closeAlarmModalBtn.addEventListener('click', closeAlarmModal);
+    saveCloseAlarmModalBtn.addEventListener('click', closeAlarmModal);
+    alarmModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === alarmModalBackdrop) {
+        closeAlarmModal();
+      }
+    });
+
+    // 試聽按鈕
+    testSoundBtn.addEventListener('click', () => {
+      playAlarmSound();
+    });
+
+    // 監聽各輸入項即時儲存
+    for (let i = 0; i < 3; i++) {
+      const enableEl = document.getElementById(`alarmEnable${i}`);
+      const timeEl = document.getElementById(`alarmTime${i}`);
+      const labelEl = document.getElementById(`alarmLabel${i}`);
+      if (enableEl) enableEl.addEventListener('change', saveAlarmsFromUI);
+      if (timeEl) timeEl.addEventListener('change', saveAlarmsFromUI);
+      if (labelEl) labelEl.addEventListener('input', saveAlarmsFromUI);
+    }
+
+    // 鬧鈴通知橫幅控制
+    let alarmBannerTimeout = null;
+    function showAlarmBanner(timeStr, labelStr) {
+      alarmBannerTitle.textContent = `${timeStr} 【${labelStr}】`;
+      alarmBannerSub.textContent = '考場定時鬧鈴提醒已到達';
+      alarmBanner.style.display = 'block';
+
+      if (alarmBannerTimeout) clearTimeout(alarmBannerTimeout);
+      alarmBannerTimeout = setTimeout(() => {
+        alarmBanner.style.display = 'none';
+      }, 12000);
+    }
+
+    closeAlarmBannerBtn.addEventListener('click', () => {
+      if (alarmBannerTimeout) clearTimeout(alarmBannerTimeout);
+      alarmBanner.style.display = 'none';
+    });
+
+    // 鬧鈴檢查比對（由 updateClock 每秒調用）
+    let lastTriggeredMinute = '';
+    function checkAndTriggerAlarms(currentTimeStr) {
+      alarms.forEach((alarm) => {
+        if (alarm.enabled && alarm.time === currentTimeStr) {
+          playAlarmSound();
+          showAlarmBanner(alarm.time, alarm.label || '定時提醒');
+        }
+      });
+    }
+
+    syncAlarmsToUI();
+
     // --- 秒數切換（預設 ON） ---
     let showSeconds = localStorage.getItem(STORAGE_KEY_SHOW_SEC) !== 'false';
     function updateSecondsBtn() {
@@ -1130,6 +1688,13 @@
         timeMilliseconds.textContent = `.${strMs}`;
       }
 
+      // 鬧鈴整點秒數檢查（每分 00 秒檢查一次）
+      const currentFullTimeStr = `${strHours}:${strMinutes}`;
+      if (strSeconds === '00' && currentFullTimeStr !== lastTriggeredMinute) {
+        lastTriggeredMinute = currentFullTimeStr;
+        checkAndTriggerAlarms(currentFullTimeStr);
+      }
+
       const year = now.getFullYear();
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const day = String(now.getDate()).padStart(2, '0');
@@ -1166,7 +1731,10 @@
 
     // --- 鍵盤快捷鍵 ---
     window.addEventListener('keydown', (e) => {
-      const isEditing = [pageTitle, pageFooter, expectedCount, actualCount, absentSeats].includes(document.activeElement);
+      const isEditing = [pageTitle, pageFooter, expectedCount, actualCount, absentSeats,
+        document.getElementById('alarmLabel0'), document.getElementById('alarmLabel1'), document.getElementById('alarmLabel2'),
+        document.getElementById('alarmTime0'), document.getElementById('alarmTime1'), document.getElementById('alarmTime2')
+      ].includes(document.activeElement);
       if (isEditing) return;
 
       if (e.key === 'f' || e.key === 'F') {
@@ -1180,6 +1748,19 @@
         applySizeMode(sizeModes[prevIdx]);
       } else if (e.key === 'b' || e.key === 'B') {
         boardBtn.click();
+      } else if (e.key === 'a' || e.key === 'A') {
+        if (alarmModalBackdrop.style.display === 'flex') {
+          closeAlarmModal();
+        } else {
+          openAlarmModal();
+        }
+      } else if (e.key === 'Escape') {
+        if (alarmModalBackdrop.style.display === 'flex') {
+          closeAlarmModal();
+        }
+        if (alarmBanner.style.display !== 'none') {
+          alarmBanner.style.display = 'none';
+        }
       }
     });
 
